@@ -1,6 +1,6 @@
 import os
 import unittest
-from context import getjdeps
+from context import *
 from getjdeps import *
 
 

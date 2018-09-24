@@ -1,6 +1,7 @@
 import re
 
 from getjdeps import parse_jdeps
+from packages import mpdg
 
 
 def getacircle(graph: dict):
@@ -30,4 +31,15 @@ def getacircle(graph: dict):
     return None
 
 
-inputfile = r"..\res\jdeptest"
+inputfile = r"C:\Dev\Pacsinteg\pacsinteg.dep"
+with open(inputfile, encoding="utf-8") as f:
+    cdg = parse_jdeps(f.read())
+pdg, edges = mpdg(cdg)
+circle = getacircle(pdg)
+print(circle)
+n = len(circle)
+for i in range(n):
+    edge = circle[i], circle[(i+1)%n]
+    print(edges[edge])
+
+
