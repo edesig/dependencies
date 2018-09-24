@@ -33,6 +33,7 @@ class TestPatterns(unittest.TestCase):
         self.assertEqual(t_class, m["dclass"], "Class name parsed wrongly")
         self.assertEqual(None, m["dmodule"], "Module name parsed wrongly")
 
+    @unittest.SkipTest
     def test_classblock(self):
         t_class = r"jdepend.framework.AbstractParser"
         t_module = r"jdepend"
@@ -55,6 +56,12 @@ class TestPatterns(unittest.TestCase):
         n = len(p_classblock.findall(t_block))
         self.assertLessEqual(k, n, "Not all blocks are detected.")
         self.assertGreaterEqual(k, n, "Too many blocks are detected.")
+
+    def test_line(self):
+        t_line = "line"
+        t_text = f"{t_line}\r\n{t_line}\n{t_line}\n\n{t_line}"
+        for m in p_line.finditer(t_text):
+            self.assertEqual(t_line,m[0])
 
 
 class TestDepsParser(unittest.TestCase):

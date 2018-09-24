@@ -17,5 +17,5 @@ def mpdg(cdg:dict):
             if dpackage == package:
                 continue
             pdg[package].add(dpackage)
-            edges[(package,dpackage)]=(cl,dcl)
+            edges[(package,dpackage)].add((cl,dcl))
     return dict(pdg), dict(edges)
