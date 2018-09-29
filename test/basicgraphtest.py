@@ -1,6 +1,6 @@
 import unittest
-from context import getjdeps
-from main import *
+from context import *
+from src.basicgraph import *
 
 G = {1: {2},
      2: {3},
@@ -11,6 +11,10 @@ acyclic = {1: {2, 3},
            2: {4},
            3: {4, 5, 6}}
 
+
+class verystronglyconnectedcomponent(dict):
+    def __init__(self, first=0, last=0):
+        pass
 
 def circlenormalform(c):
     s = c.index(min(c))
