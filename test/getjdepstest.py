@@ -61,7 +61,7 @@ class TestPatterns(unittest.TestCase):
         t_line = "line"
         t_text = f"{t_line}\r\n{t_line}\n{t_line}\n\n{t_line}"
         for m in p_line.finditer(t_text):
-            self.assertEqual(t_line,m[0])
+            self.assertEqual(t_line, m[0])
 
 
 class TestDepsParser(unittest.TestCase):
@@ -73,7 +73,7 @@ class TestDepsParser(unittest.TestCase):
                                               "java.lang.Integer", "java.lang.Object", "java.lang.String",
                                               "java.lang.System"},
                     "com.edesig.proof.Odd": {"com.edesig.proof.Main", "java.lang.Object"}}
-        with open(os.path.join("..","res","jdepstest.dep"), encoding="utf-8") as f:
+        with open(os.path.join("..", "res", "jdepstest.dep"), encoding="utf-8") as f:
             s = f.read()
         self.maxDiff = None
-        self.assertDictEqual(expected,dict(parse_jdeps(s)), "Dependency graph is not parsed correctly")
+        self.assertDictEqual(expected, dict(parse_jdeps(s)), "Dependency graph is not parsed correctly")

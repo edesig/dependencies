@@ -15,5 +15,3 @@ cdg = get_jdependencies(location)
 pdg, edges = mpdg(cdg)
 for circle in getcircles(pdg):
     show_pcircle(circle)
-
-

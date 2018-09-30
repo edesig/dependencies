@@ -2,6 +2,7 @@ import unittest
 from context import *
 from packages import *
 
+
 class TestPattern(unittest.TestCase):
 
     def test_p_classfullname(self):
@@ -10,5 +11,5 @@ class TestPattern(unittest.TestCase):
         t_fullname = f"{t_package}.{t_class}"
         m = p_fullclassname.search(t_fullname)
         self.assertIsNotNone(m)
-        self.assertEqual(t_package,m["packagename"],"Package name parsed wrongly")
+        self.assertEqual(t_package, m["packagename"], "Package name parsed wrongly")
         self.assertEqual(t_class, m["classname"], "Classname parsed wrongly")
