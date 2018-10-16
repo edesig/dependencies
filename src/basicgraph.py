@@ -1,4 +1,4 @@
-from src.tools import idset
+from tools import idset
 
 
 def circlenormalform(c):
@@ -61,8 +61,7 @@ def getcircles(G):
     return circles
 
 
-def show_pcircle(circle):
-    global edges
+def show_pcircle(circle, edges):
     print(" -> ".join(circle))
     n = len(circle)
     for i in range(n):
