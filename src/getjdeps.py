@@ -10,8 +10,6 @@ p_dependedclass = re.compile(r_dependedclass)
 p_classblock = re.compile(rf"{r_class}[\r\n]*({r_dependedclass}[\r\n]*)*", re.MULTILINE)
 p_line = re.compile("[^\n\r]+")
 
-input_file = r""  # TO DO : get it from parameter
-
 
 def parse_jdeps(s):
     deps = defaultdict(lambda: set())
@@ -30,11 +28,6 @@ def parse_jdeps(s):
 def get_jdependencies(location):
     prc_jdeps = subprocess.Popen(["jdeps", "-verbose:class", "-filter:none", location], stdin=subprocess.PIPE,
                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    try:
-        output, err = prc_jdeps.communicate()
-        output = output.decode("utf-8")
-        # with open("jdeps.log", "w", encoding="utf-8") as f:
-        #     f.write(output)
-        return parse_jdeps(f"{output}\n")
-    except Exception as e:
-        print(e)
+    output, err = prc_jdeps.communicate()
+    output = output.decode("utf-8")
+    return parse_jdeps(f"{output}\n")
