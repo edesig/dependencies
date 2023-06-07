@@ -29,7 +29,7 @@ def getacircle(graph: dict):
     rest = set(graph)
     while len(rest) > 0:
         if found(rest.pop()):
-            return path[path.index(path[-1]):-1]
+            return path[path.index(path[-1]) : -1]
         rest -= reached
     return None
 
@@ -45,7 +45,7 @@ def getcircles(G):
             return
         path.append(w)
         if path.count(w) > 1:
-            circles.add(tuple(circlenormalform(path[path.index(path[-1]):-1])))
+            circles.add(tuple(circlenormalform(path[path.index(path[-1]) : -1])))
             path.pop()
             return
         else:
@@ -94,8 +94,10 @@ def stronglyconnectedcomponents(g):
         if node not in g:
             r = reached.id(node)
         else:
-            r = min([f(successor) for successor in g[node] if successor not in processed]
-                    + [reached.id(node)])
+            r = min(
+                [f(successor) for successor in g[node] if successor not in processed]
+                + [reached.id(node)]
+            )
         if r >= reached.id(node):
             component = set()
             while True:

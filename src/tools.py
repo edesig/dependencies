@@ -1,13 +1,13 @@
 class dynamicdict(dict):
     """
-        dynamicdict(factory[, ...]) --> dict with factory
+    dynamicdict(factory[, ...]) --> dict with factory
 
-        The factory is called with one argument to produce
-        a new value when a key is not present, in __getitem__ only.
-        A defaultdict compares equal to a dict with the same items.
-        All remaining arguments are treated the same as if they were
-        passed to the dict constructor, including keyword arguments.
-        """
+    The factory is called with one argument to produce
+    a new value when a key is not present, in __getitem__ only.
+    A defaultdict compares equal to a dict with the same items.
+    All remaining arguments are treated the same as if they were
+    passed to the dict constructor, including keyword arguments.
+    """
 
     def __init__(self, factory=None, seq=None, **kwargs):
         if seq:
@@ -23,12 +23,12 @@ class dynamicdict(dict):
 
 class idset(set):
     """
-        idset([iterable]) --> set with id
+    idset([iterable]) --> set with id
 
-        The id represents the order of getting into set,
-        therefore this class should not support the operators
-        union, intersection and difference, but appending a set to an
-        idset makes sense.
+    The id represents the order of getting into set,
+    therefore this class should not support the operators
+    union, intersection and difference, but appending a set to an
+    idset makes sense.
     """
 
     def __init__(self, seq=()):

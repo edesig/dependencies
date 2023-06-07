@@ -26,8 +26,12 @@ def parse_jdeps(s):
 
 
 def get_jdependencies(location):
-    prc_jdeps = subprocess.Popen(["jdeps", "-verbose:class", "-filter:none", location], stdin=subprocess.PIPE,
-                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    prc_jdeps = subprocess.Popen(
+        ["jdeps", "-verbose:class", "-filter:none", location],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
     output, err = prc_jdeps.communicate()
     output = output.decode("utf-8")
     return parse_jdeps(f"{output}\n")

@@ -40,10 +40,12 @@ class TestPatterns(unittest.TestCase):
         t_hline = rf"   {t_class} ({t_module})"
         t_dclass = r"java.io.IOException"
         t_bline = rf"      -> {t_dclass}"
-        t_block = "{}\r\n{}\n".format(t_hline, '\r\n'.join([t_bline] * 4))
+        t_block = "{}\r\n{}\n".format(t_hline, "\r\n".join([t_bline] * 4))
         m = p_classblock.search(t_block)
         self.assertIsNotNone(p_class.search(t_hline), "Header Line does'nt match.")
-        self.assertIsNotNone(p_dependedclass.search(t_bline), "Body line does'nt match.")
+        self.assertIsNotNone(
+            p_dependedclass.search(t_bline), "Body line does'nt match."
+        )
         self.assertIsNotNone(m, "Test string does'nt match.")
         self.assertEqual(t_class, m["class"], "Class name parsed wrongly")
         self.assertEqual(t_module, m["module"], "Module name parsed wrongly")
@@ -66,14 +68,28 @@ class TestPatterns(unittest.TestCase):
 
 class TestDepsParser(unittest.TestCase):
     def test_parse_jdeps(self):
-        expected = {"com.edesig.proof.Even": {"com.edesig.proof.Main", "java.lang.Object"},
-                    "com.edesig.proof.Foo": {"java.io.PrintStream", "java.lang.Object", "java.lang.String",
-                                             "java.lang.System"},
-                    "com.edesig.proof.Main": {"com.edesig.proof.Even", "com.edesig.proof.Odd", "java.io.PrintStream",
-                                              "java.lang.Integer", "java.lang.Object", "java.lang.String",
-                                              "java.lang.System"},
-                    "com.edesig.proof.Odd": {"com.edesig.proof.Main", "java.lang.Object"}}
-        with open(os.path.join("..", "res", "jdepstest.dep"), encoding="utf-8") as f:
+        expected = {
+            "com.edesig.proof.Even": {"com.edesig.proof.Main", "java.lang.Object"},
+            "com.edesig.proof.Foo": {
+                "java.io.PrintStream",
+                "java.lang.Object",
+                "java.lang.String",
+                "java.lang.System",
+            },
+            "com.edesig.proof.Main": {
+                "com.edesig.proof.Even",
+                "com.edesig.proof.Odd",
+                "java.io.PrintStream",
+                "java.lang.Integer",
+                "java.lang.Object",
+                "java.lang.String",
+                "java.lang.System",
+            },
+            "com.edesig.proof.Odd": {"com.edesig.proof.Main", "java.lang.Object"},
+        }
+        with open(os.path.join("res", "jdepstest.dep"), encoding="utf-8") as f:
             s = f.read()
         self.maxDiff = None
-        self.assertDictEqual(expected, dict(parse_jdeps(s)), "Dependency graph is not parsed correctly")
+        self.assertDictEqual(
+            expected, dict(parse_jdeps(s)), "Dependency graph is not parsed correctly"
+        )

@@ -4,7 +4,6 @@ from packages import *
 
 
 class TestPattern(unittest.TestCase):
-
     def test_p_classfullname(self):
         t_package = "com.ge.med.common.util"
         t_class = "CustomLogger"
