@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dependencies"
+authors = [
+    {name = "Édes István Gergely", email = "edesig@gmail.com"},
+]
+description = "A simple tool to find circular dependencies among java packages"
+readme = "README.md"
+requires-python = ">=3.6"
+keywords = [] # TODO
+#license = {text = "BSD-3-Clause"} # TODO
+classifiers = [
+    "Programming Language :: Python :: 3",
+] # TODO
+dependencies = [
+    'importlib-metadata; python_version<"3.6"',
+]
+dynamic = ["version"]
+
+[project.scripts]
+dependencies = "dependencies.main:main" 
+
+[tool.setuptools.dynamic]
+#version = {attr = "my_package.VERSION"} # TODO

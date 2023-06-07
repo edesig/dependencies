@@ -1,7 +1,9 @@
 import os
 import unittest
+
 from context import *
-from getjdeps import *
+
+from dependencies.getjdeps import *
 
 
 class TestPatterns(unittest.TestCase):

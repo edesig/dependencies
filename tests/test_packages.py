@@ -1,6 +1,8 @@
 import unittest
+
 from context import *
-from packages import *
+
+from dependencies.packages import *
 
 
 class TestPattern(unittest.TestCase):

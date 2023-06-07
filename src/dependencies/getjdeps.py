@@ -1,6 +1,6 @@
 import re
-from collections import defaultdict
 import subprocess
+from collections import defaultdict
 
 p_jardep = re.compile(r"(?P<module>\w+)\s+->\s+(?P<jar>.+\S)")
 r_class = r"^\s+(?P<class>\S+)\s+\((?P<module>\w+)\)?"

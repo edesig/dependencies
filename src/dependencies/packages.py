@@ -1,8 +1,6 @@
 import re
 from collections import defaultdict
 
-import getjdeps
-
 p_fullclassname = re.compile(r"((?P<packagename>\S+)\.)?(?P<classname>\S+)")
 
 

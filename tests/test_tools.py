@@ -1,6 +1,8 @@
 import unittest
+
 from context import *
-from src.tools import dynamicdict, idset
+
+from dependencies.tools import dynamicdict, idset
 
 
 class TestDynamicDict(unittest.TestCase):

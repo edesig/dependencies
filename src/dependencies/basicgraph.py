@@ -1,4 +1,4 @@
-from tools import idset
+from .tools import idset
 
 
 def circlenormalform(c):
