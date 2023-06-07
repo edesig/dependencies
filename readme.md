@@ -21,4 +21,4 @@ Only tested with jdeps 1.8.0_191.
 ## How to run unittests?
 
 Unit tests can be executed from the project root with the command
-`python -m unittest discover -p "*test.py" -s test/`
+`python -m unittest discover -s test/`
