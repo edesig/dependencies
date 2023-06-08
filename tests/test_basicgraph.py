@@ -1,4 +1,6 @@
 import unittest
+from io import StringIO
+from unittest.mock import patch
 
 from context import *
 
@@ -16,27 +18,80 @@ class verystronglyconnectedcomponent(dict):
         pass
 
 
-def circlenormalform(c):
-    s = c.index(min(c))
-    n = len(c)
-    return [c[(i + s) % n] for i in range(n)]
+class TestGetacircle(unittest.TestCase):
+    def test_with_a_graph_with_one_circle(self):
+        self.assertEqual([2, 3, 4], getacircle(G), "Failed to find any circle")
 
-
-class TestBasicGraphUtils(unittest.TestCase):
-    def test_getacircle(self):
-        self.assertEqual(
-            circlenormalform([4, 2, 3]), circlenormalform(getacircle(G)), "Fail"
-        )
+    def test_with_a_graph_without_circle(self):
         self.assertIsNone(getacircle(acyclic), "Found a circle in an acyclic graph")
 
-    def test_stronglyconnectedcomponent(self):
-        SCC = stronglyconnectedcomponents(G)
-        self.assertSetEqual({2, 3, 4}, next(SCC))
-        self.assertSetEqual({1}, next(SCC))
 
-        for component in stronglyconnectedcomponents(acyclic):
-            self.assertEqual(1, len(component))
+class TestGetcircles(unittest.TestCase):
+    def test_with_a_graph_with_one_circle(self):
+        self.assertSetEqual({(2, 3, 4)}, getcircles(G), "Failed to find any circle")
 
-        for component in stronglyconnectedcomponents(G2):
-            print(component)
-            self.assertIn(component, [{1, 2, 3, 5, 6}, {4}, {8, 7}])
+    def test_with_a_graph_without_circle(self):
+        self.assertSetEqual(
+            set(), getcircles(acyclic), "Found a circle in an acyclic graph"
+        )
+
+    def test_with_G2(self):
+        self.assertEqual(
+            {(1, 2), (1, 2, 3), (3, 5, 6), (7, 8)},
+            getcircles(G2),
+            "Failed to find all circles",
+        )
+
+    def test_with_empty(self):
+        self.assertEqual(
+            set(), getcircles({}), "Failed to get circles from empty graph"
+        )
+
+
+class TestStronglyconnectedcomponent(unittest.TestCase):
+    def test_with_a_graph_with_a_circle_and_an_other_component(self):
+        expected = {frozenset(component) for component in ({1}, {2, 3, 4})}
+        actual = {frozenset(component) for component in stronglyconnectedcomponents(G)}
+
+        self.assertSetEqual(expected, actual, "Failed to determine components")
+
+    def test_with_an_acyclic_graph(self):
+        expected = {frozenset((node,)) for node in range(1, 7)}
+        actual = {
+            frozenset(component) for component in stronglyconnectedcomponents(acyclic)
+        }
+        self.assertSetEqual(expected, actual, "Failed to determine components")
+
+    def test_with_G2(self):
+        expected = {
+            frozenset(component) for component in ((1, 2, 3, 5, 6), (4,), (8, 7))
+        }
+        actual = {frozenset(component) for component in stronglyconnectedcomponents(G2)}
+        self.assertSetEqual(expected, actual, "Failed to determine components")
+
+    def test_with_empty_graph(self):
+        self.assertSetEqual(
+            frozenset(),
+            frozenset(stronglyconnectedcomponents({})),
+            "Failed to determine strongly connected components in an empty graph",
+        )
+
+
+class TestShowPcircle(unittest.TestCase):
+    @patch("sys.stdout", new_callable=StringIO)
+    def test_a_simple_circle(self, stdout):
+        circle = ["package_A", "package_B"]
+        edges = {
+            ("package_A", "package_B"): [("A1", "B2")],
+            ("package_B", "package_A"): [("B1", "A2"), ("B3", "A1")],
+        }
+        show_pcircle(circle, edges)
+        expected = (
+            "package_A -> package_B\n"
+            + "\tpackage_A->package_B\n"
+            + "\t\tA1 -> B2\n"
+            + "\tpackage_B->package_A\n"
+            + "\t\tB1 -> A2\n"
+            + "\t\tB3 -> A1\n"
+        )
+        self.assertEqual(expected, stdout.getvalue())

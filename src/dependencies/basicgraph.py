@@ -1,13 +1,20 @@
+from typing import Any
+
 from .tools import idset
 
 
 def circlenormalform(c):
+    """
+    Returns the normal form of a circle.
+    C:
+    """
     s = c.index(min(c))
     n = len(c)
     return [c[(i + s) % n] for i in range(n)]
 
 
 def getacircle(graph: dict):
+    # UNUSED
     def found(u):
         if not u in graph:
             return False
@@ -29,7 +36,7 @@ def getacircle(graph: dict):
     rest = set(graph)
     while len(rest) > 0:
         if found(rest.pop()):
-            return path[path.index(path[-1]) : -1]
+            return circlenormalform(path[path.index(path[-1]) : -1])
         rest -= reached
     return None
 
@@ -115,19 +122,3 @@ def stronglyconnectedcomponents(g):
         rest -= reached
     yield from components
     return
-
-
-def traversefrom(g, s):
-    reached = set()
-
-    def f(node):
-        nonlocal g, reached
-        if node in reached:
-            return
-        reached.add(node)
-        for child in g[node]:
-            yield from f(child)
-        yield node
-
-    for node in f(s):
-        yield node

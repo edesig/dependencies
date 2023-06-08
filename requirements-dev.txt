@@ -1,0 +1,10 @@
+# Linting
+pylint
+# Formatting
+isort
+black
+# Testing
+coverage
+tox
+# Packaging
+build
