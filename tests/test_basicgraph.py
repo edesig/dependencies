@@ -75,23 +75,3 @@ class TestStronglyconnectedcomponent(unittest.TestCase):
             frozenset(stronglyconnectedcomponents({})),
             "Failed to determine strongly connected components in an empty graph",
         )
-
-
-class TestShowPcircle(unittest.TestCase):
-    @patch("sys.stdout", new_callable=StringIO)
-    def test_a_simple_circle(self, stdout):
-        circle = ["package_A", "package_B"]
-        edges = {
-            ("package_A", "package_B"): [("A1", "B2")],
-            ("package_B", "package_A"): [("B1", "A2"), ("B3", "A1")],
-        }
-        show_pcircle(circle, edges)
-        expected = (
-            "package_A -> package_B\n"
-            + "\tpackage_A->package_B\n"
-            + "\t\tA1 -> B2\n"
-            + "\tpackage_B->package_A\n"
-            + "\t\tB1 -> A2\n"
-            + "\t\tB3 -> A1\n"
-        )
-        self.assertEqual(expected, stdout.getvalue())

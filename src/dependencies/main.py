@@ -1,8 +1,8 @@
 import sys
 
-from .basicgraph import getcircles, show_pcircle, stronglyconnectedcomponents
+from .basicgraph import getcircles, stronglyconnectedcomponents
 from .getjdeps import *
-from .packages import mpdg
+from .packages import mpdg, show_pcircle
 
 
 def usage():

@@ -1,21 +1,29 @@
-from typing import Any
+from typing import Any, Dict, Generator, List, Optional, Set
 
 from .tools import idset
 
 
-def circlenormalform(c):
+def circlenormalform(c: List[Any]) -> List[Any]:
+    # TODO: typing must reflect that Nodes are comparable
+    # and the signature is List[T] -> List[T]
     """
-    Returns the normal form of a circle.
-    C:
+    Gets the normal form of a circle that is a cycle starting with the least
+    node.
+    TODO: This normal form is not unique: See [1,2,3], [1, 3, 2]
+    TODO: Do we need this?
+
+    params:
+    c: List of nodes representing a cycle
     """
     s = c.index(min(c))
     n = len(c)
     return [c[(i + s) % n] for i in range(n)]
 
 
-def getacircle(graph: dict):
+def getacircle(graph: Dict[Any, Set[Any]]) -> Optional[List[Any]]:
     # UNUSED
     def found(u):
+        nonlocal path, reached
         if not u in graph:
             return False
         if u in reached:
@@ -25,9 +33,8 @@ def getacircle(graph: dict):
             # return False
         path.append(u)
         reached.add(u)
-        for v in graph[u]:
-            if found(v):
-                return True
+        if any(found(v) for v in graph[u]):
+            return True
         path.pop()
         return False
 
@@ -41,41 +48,41 @@ def getacircle(graph: dict):
     return None
 
 
-def getcircles(G):
+def getcircles(G: Dict[Any, Set[Any]]) -> Generator:
+    """
+    Generator getting all circles from a graph.
+
+    params:
+    G: the graph as an adjacency set of which circles we want to iterate
+       through
+    yields: circle as a list
+    """
     reached = set()
     path = []
     circles = set()
 
     def f(w):
-        nonlocal path
+        nonlocal path, circles, reached
         if not w in G:
+            # w has no edges out => w cannot be in a circle
             return
-        path.append(w)
+        path.append(w)  # step
         if path.count(w) > 1:
+            # we've found a circle
             circles.add(tuple(circlenormalform(path[path.index(path[-1]) : -1])))
-            path.pop()
-            return
         else:
             reached.add(w)
             for v in G[w]:
                 f(v)
-        path.pop()
+        path.pop()  # step backward
 
     rest = set(G.keys())
     while rest:
+        # path == []
         f(next(iter(rest)))
+        # path == [] again
         rest -= reached
     return circles
-
-
-def show_pcircle(circle, edges):
-    print(" -> ".join(circle))
-    n = len(circle)
-    for i in range(n):
-        edge = circle[i], circle[(i + 1) % n]
-        print(f"\t{edge[0]}->{edge[1]}")
-        for realization in edges[edge]:
-            print(f"\t\t{' -> '.join(realization)}")
 
 
 ## TO DO:

@@ -35,7 +35,6 @@ class TestPatterns(unittest.TestCase):
         self.assertEqual(t_class, m["dclass"], "Class name parsed wrongly")
         self.assertEqual(None, m["dmodule"], "Module name parsed wrongly")
 
-    @unittest.SkipTest
     def test_classblock(self):
         t_class = r"jdepend.framework.AbstractParser"
         t_module = r"jdepend"
@@ -48,7 +47,7 @@ class TestPatterns(unittest.TestCase):
         self.assertIsNotNone(
             p_dependedclass.search(t_bline), "Body line does'nt match."
         )
-        self.assertIsNotNone(m, "Test string does'nt match.")
+        self.assertIsNotNone(m, "Test string doesn't match.")
         self.assertEqual(t_class, m["class"], "Class name parsed wrongly")
         self.assertEqual(t_module, m["module"], "Module name parsed wrongly")
         self.assertEqual(t_dclass, m["dclass"], "Class name parsed wrongly")
